@@ -1,19 +1,37 @@
 (function() {
   var app = angular.module('notebook', []);
-  app.controller("NotebookController", function() {
-    this.notes = [
-      {
-        id: "note1",
-        title: 'First Note',
-        body: 'First Note\nCheck it out!',
-        classes: "green",
-      },{
-        id: "note2",
-        title: 'Second Note',
-        body: 'Second Note\nCheck it out!\nIt\'s even wordier!',
-        classes: "pink",
-      }];
+  // Controller
+  app.controller("NotebookController", function($scope, $http, $location) {
+    //this.notes = my_notes;
+    //$scope.notes = my_notes;
+    this.addNote = function() {
+      $http.post('http://notes.scrumple.net\:8081/api/note', $scope.note).
+      success(function(data) {
+        this.error = ''; 
+        $location.path('/');
+      }).
+      error(function(data, status) {
+        this.error = 'Error: ' + status;
+        console.log(this.error);
+      });
+    };
+    this.getNotes = function() {
+      $http({
+        method: 'JSONP',
+        url: 'http://notes.scrumple.net\:8081/api/notes?callback=JSON_CALLBACK'
+      }).
+      success(function(data) {
+        $scope.notes = data.notes;
+        this.error = '';
+      }).
+      error(function(data, status) {
+        this.error = 'Error: ' + status;
+      });
+    };
+    this.getNotes();
   });
+
+  // Note Widget
   app.directive('noteWidget', function() {
     return {
       restrict: 'E',

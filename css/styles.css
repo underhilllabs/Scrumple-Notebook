@@ -1,6 +1,6 @@
 div {
-  margin: 20px 0;
-  padding: 0.5em;
+  margin: 0;
+  padding: 0 0.5em 0 0.5em;
 }
 textarea {
   width: 100%;
@@ -17,4 +17,5 @@ textarea {
 div pre {
   padding: 0px;
   border: 0px;
+  background: transparent;
 }

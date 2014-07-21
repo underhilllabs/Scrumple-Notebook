@@ -1,15 +1,17 @@
 <!DOCTYPE HTML>
 <html ng-app="notebook">
 <head>
- <!-- <link rel="stylesheet" href="css/bootstrap.min.css"/> -->
- <link rel="stylesheet" href="css/styles.css"/>
+  <title>Scrumple Notes</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="angular.min.js"></script>
+  <script type="text/javascript" src="app.js"></script>
 </head>
 <body>
- <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
- <script type="text/javascript" src="angular.min.js"></script>
- <script type="text/javascript" src="app.js"></script>
+  <h2>Let's read some notes</h2>
   <div ng-controller="NotebookController as notebook">
-    <div ng-repeat="note in notebook.notes"> 
+    <div ng-repeat="note in notes"> 
       <p><note-widget></note-widget></p>
     </div>
   </div>
