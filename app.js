@@ -2,18 +2,42 @@
   var app = angular.module('notebook', []);
   // Controller
   app.controller("NotebookController", function($scope, $http, $location) {
-    //this.notes = my_notes;
-    //$scope.notes = my_notes;
-    this.addNote = function() {
-      $http.post('http://notes.scrumple.net\:8081/api/note', $scope.note).
+    $scope.updateNote = function(note) {
+      console.log("updating: " + note.id);
+      $http.put('http://notes.scrumple.net\:8081/api/note/' + idx, note).
       success(function(data) {
-        this.error = ''; 
+        console.log("note updated some.how..");
+        this.error = '';
         $location.path('/');
       }).
       error(function(data, status) {
         this.error = 'Error: ' + status;
         console.log(this.error);
       });
+    };
+    $scope.addNote = function() {
+      var idx = $scope.notes.length+1;
+      $scope.notes.push({title: $scope.newnote.title, 
+                          body: $scope.newnote.body, 
+                          classes: $scope.newnote.classes, 
+                          index: idx});
+      console.log("note here: " + $scope.newnote.title);
+      console.log("note body: " + $scope.newnote);
+      $http.post('http://notes.scrumple.net\:8081/api/note', {title: $scope.newnote.title,
+                                                              body: $scope.newnote.body, 
+                                                              classes: $scope.newnote.classes, 
+                                                              index: idx}).
+      success(function(data) {
+        this.error = '';
+        $location.path('/');
+      }).
+      error(function(data, status) {
+        this.error = 'Error: ' + status;
+        console.log(this.error);
+      });
+      $scope.newnote.title='';
+      $scope.newnote.body = '';
+      $scope.newnote.classes = '';
     };
     this.getNotes = function() {
       $http({
@@ -28,7 +52,7 @@
         this.error = 'Error: ' + status;
       });
     };
-    this.getNotes();
+   this.getNotes();
   });
 
   // Note Widget
