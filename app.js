@@ -1,39 +1,32 @@
 (function() {
-  var app = angular.module('notebook', []);
+  var app = angular.module('NotebookApp', []);
+
   // Controller
   app.controller("NotebookController", function($scope, $http, $location) {
+
     // Update Note, send update to api
     $scope.updateNote = function(note) {
-      console.log("updating: " + note.id);
       $http.put('http://notes.scrumple.net\:8081/api/note/' + idx, note).
       success(function(data) {
-        console.log("note updated some.how..");
         this.error = '';
-        $location.path('/');
       }).
       error(function(data, status) {
         this.error = 'Error: ' + status;
         console.log(this.error);
       });
     };
+    // Update the body of the node
     $scope.updateBody = function(note) {
-      console.log("updateBody: " + note.body);
-      console.log("updating: " + note.id);
-      $http.put('http://notes.scrumple.net\:8081/api/note/' + note.id, note).
+      $http.put('http://notes.scrumple.net\:8081/api/note/' + note.index, note).
       success(function(data) {
-        console.log("successful update: whoot!");
       });
     }
+
     // Add Note
     $scope.addNote = function() {
       var idx = $scope.notes.length;
-      console.log("length is " + idx);
-      $scope.notes.push( {title: $scope.newnote.title,
-                          body: $scope.newnote.body,
-                          classes: $scope.newnote.classes,
-                          index: idx});
-      console.log("note here: " + $scope.newnote.title);
-      console.log("note body: " + $scope.newnote);
+      $scope.notes.push( {title: $scope.newnote.title, body: $scope.newnote.body,
+                          classes: $scope.newnote.classes, index: idx});
       $http.post('http://notes.scrumple.net\:8081/api/note', {title: $scope.newnote.title,
                                                               body: $scope.newnote.body,
                                                               classes: $scope.newnote.classes,
@@ -49,6 +42,7 @@
       $scope.newnote.body = '';
       $scope.newnote.classes = '';
     };
+
     // Get all the Notes.
     this.getNotes = function() {
       $http({
@@ -82,12 +76,13 @@
       controller: function($scope, $element) {
         $scope.isEditable = 0;
         $scope.setEditable = function() {
-          $scope.body = $scope.note.body;
+          //$scope.body = $scope.note.body;
           $scope.isEditable = 1;
         };
         $scope.unsetEditable = function() {
-          console.log($scope.body);
-          $scope.note.body = $scope.body;
+          console.log("before assignment body: " + $scope.note.body);
+          //$scope.note.body = $scope.body;
+          console.log("after assignment body: " + $scope.note.body);
           $scope.updateBody($scope.note);
           $scope.isEditable = 0;
         };
