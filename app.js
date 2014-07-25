@@ -3,7 +3,7 @@
 
   // Controller
   app.controller("NotebookController", function($scope, $http, $location) {
-    this.showForm = true;
+    this.showForm = false;
 
     this.toggleForm = function() {
       this.showForm = !this.showForm;
@@ -90,6 +90,17 @@
     return {
       restrict: 'E',
       templateUrl: 'note-form.html',
+      scope: false,
+      controller: function($scope, $element) {
+        $scope.colors = [
+          {id: 'green', name: 'green'},
+          {id: 'blue', name: 'blue'},
+          {id: 'pink', name: 'pink'},
+        ];
+        //$scope.addTheNote = function() {
+        //  $scope.addNote($scope.note);
+        //};
+      },
     }
   });
 

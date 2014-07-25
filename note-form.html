@@ -2,6 +2,10 @@
 <form ng-submit="addNote()">
   Title:<br> <input type=text ng-model="newnote.title"><br>
   Body:<br> <textarea rows=4 ng-model="newnote.body"></textarea><br>
-  classes:<br> <input type=text ng-model="newnote.classes"><br>
-  <input type=submit value="Add Note!">
+  <!-- classes:<br> <input type=text ng-model="newnote.classes"><br>-->
+  color:<br><select ng-model="newnote.classes"
+                    ng-options="color.name as color.name for color in colors"></select>
+  <p>
+    <input type=submit value="Add Note!">
+  </p>
 </form>
