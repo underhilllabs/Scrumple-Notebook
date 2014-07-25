@@ -1,5 +1,5 @@
-<div ng-class="[note.classes]">
-<h4>{{note.title}}</h4>
+<div ng-class="[note.classes]" ng-hide="this.deleted">
+<h4>{{note.title}} <button class="pull-right" ng-click="tossNote()">x</button></h4>
   <pre ng-click="setEditable()" ng-hide="this.isEditable">{{note.body}}</pre>
   <textarea ng-show="this.isEditable" ng-blur="unsetEditable()" ng-model="note.body" rows=4>{{note.body}}</textarea>
 </div>

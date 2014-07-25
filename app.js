@@ -3,10 +3,22 @@
 
   // Controller
   app.controller("NotebookController", function($scope, $http, $location) {
+    this.showForm = true;
+
+    this.toggleForm = function() {
+      this.showForm = !this.showForm;
+      if(this.showForm == true)
+        this.addNoteButtonTitle = "Hide Form";
+      else
+        this.addNoteButtonTitle = "Add Note";
+    };
+
+    // Text for add note button
+    this.addNoteButtonTitle = "Add Note";
 
     // Update Note, send update to api
     $scope.updateNote = function(note) {
-      $http.put('http://notes.scrumple.net\:8081/api/note/' + idx, note).
+      $http.put('http://notes.scrumple.net\:8081/api/note/' + note.id, note).
       success(function(data) {
         this.error = '';
       }).
@@ -17,8 +29,20 @@
     };
     // Update the body of the node
     $scope.updateBody = function(note) {
-      $http.put('http://notes.scrumple.net\:8081/api/note/' + note.index, note).
+      $http.put('http://notes.scrumple.net\:8081/api/note/' + note.id, note).
       success(function(data) {
+      });
+    }
+
+    // Delete the note
+    $scope.deleteNote = function(note) {
+      console.log("notes index is " + note.index);
+      $http.delete('http://notes.scrumple.net\:8081/api/note/' + note.id, note).
+      success(function(data) {
+        console.log("deleted note.");
+      }).
+      error(function(data) {
+        console.log("Error: could not delete note");
       });
     }
 
@@ -61,6 +85,14 @@
     this.getNotes();
   });
 
+  // Note Form Widget
+  app.directive('noteForm', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'note-form.html',
+    }
+  });
+
   // Note Widget
   app.directive('noteWidget', function() {
     return {
@@ -76,13 +108,13 @@
       controller: function($scope, $element) {
         $scope.isEditable = 0;
         $scope.setEditable = function() {
-          //$scope.body = $scope.note.body;
           $scope.isEditable = 1;
         };
+        $scope.tossNote = function() {
+          $scope.deleted=1;
+          $scope.deleteNote($scope.note);
+        };
         $scope.unsetEditable = function() {
-          console.log("before assignment body: " + $scope.note.body);
-          //$scope.note.body = $scope.body;
-          console.log("after assignment body: " + $scope.note.body);
           $scope.updateBody($scope.note);
           $scope.isEditable = 0;
         };
