@@ -96,7 +96,11 @@
           {id: 'green', name: 'green'},
           {id: 'blue', name: 'blue'},
           {id: 'pink', name: 'pink'},
+          {id: 'yellow', name: 'yellow'},
         ];
+        $scope.newnote = {
+          'classes': $scope.colors[3].id,
+        };
         //$scope.addTheNote = function() {
         //  $scope.addNote($scope.note);
         //};
