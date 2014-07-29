@@ -8,13 +8,13 @@
     this.toggleForm = function() {
       this.showForm = !this.showForm;
       if(this.showForm == true)
-        this.addNoteButtonTitle = "Hide Form";
+        this.addNoteButtonTitle = "hide note form";
       else
-        this.addNoteButtonTitle = "Add Note";
+        this.addNoteButtonTitle = "add note";
     };
 
     // Text for add note button
-    this.addNoteButtonTitle = "Add Note";
+    this.addNoteButtonTitle = "add note";
 
     // Update Note, send update to api
     $scope.updateNote = function(note) {
@@ -49,7 +49,7 @@
     // Add Note
     $scope.addNote = function() {
       var idx = $scope.notes.length;
-      $scope.notes.push( {title: $scope.newnote.title, body: $scope.newnote.body,
+      $scope.notes.unshift( {title: $scope.newnote.title, body: $scope.newnote.body,
                           classes: $scope.newnote.classes, index: idx});
       $http.post('http://notes.scrumple.net\:8081/api/note', {title: $scope.newnote.title,
                                                               body: $scope.newnote.body,
@@ -101,9 +101,6 @@
         $scope.newnote = {
           'classes': $scope.colors[3].id,
         };
-        //$scope.addTheNote = function() {
-        //  $scope.addNote($scope.note);
-        //};
       },
     }
   });
@@ -117,12 +114,18 @@
       scope: true,
       link: function(scope, element, attrs) {
         element.find('pre').on('click', function() {
+          console.log('rows: ' + scope.note.rows);
+          element.find('textarea').prop('rows', scope.note.rows);
           element.find('textarea')[0].focus();
         });
       },
       controller: function($scope, $element) {
         $scope.isEditable = 0;
+        $scope.note.rows = 4;
+        var bodyText = "";
         $scope.setEditable = function() {
+          bodyText = $scope.note.body;
+          $scope.note.rows = bodyText.split("\n").length;
           $scope.isEditable = 1;
         };
         $scope.tossNote = function() {
